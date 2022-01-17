@@ -31,12 +31,13 @@
         </router-link>
       </h1>
       <div class="searchArea">
-        <form action="###" class="searchForm">
+        <div class="searchForm">
           <input
             type="text"
             id="autocomplete"
             class="input-error input-xxlarge"
             v-model="keyword"
+            @keydown.enter="goSearch"
           />
           <button
             class="sui-btn btn-xlarge btn-danger"
@@ -45,7 +46,7 @@
           >
             搜索
           </button>
-        </form>
+        </div>
       </div>
     </div>
   </header>
@@ -54,10 +55,10 @@
 <script>
 export default {
   name: "Header",
-  data(){
-    return{
-      keyword:""
-    }
+  data() {
+    return {
+      keyword: "",
+    };
   },
   methods: {
     goSearch() {
@@ -66,18 +67,19 @@ export default {
       // 模板字符串传参
       // this.$router.push(`/search/${this.keyword}?k=${this.keyword.toUpperCase()}`)
       // 配置传参，需要改路由名称,
-      this.$router.push({
-        name:"search",
-        params:{
-          keyword:this.keyword || undefined   // 路由传参如果是空串会导致路径缺失，兼任处理
+      const location = {
+        name: "search",
+        params: {
+          keyword: this.keyword || undefined, // 路由传参如果是空串会导致路径缺失，兼任处理
         },
-        query:{
-          k:this.keyword.toUpperCase()
-          }
-      })
+      };
+      if (this.$route.query){
+        location.query = this.$route.query
+      }
+
+      this.$router.push(location);
     },
   },
-  
 };
 </script>
 
