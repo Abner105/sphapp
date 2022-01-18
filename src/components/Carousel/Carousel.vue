@@ -24,7 +24,7 @@ export default {
   name: "Carousel",
   props: {
     list: {
-      type: Object,
+      type: Array,
       default: {},
     },
   },

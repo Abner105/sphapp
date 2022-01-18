@@ -7,3 +7,5 @@ export const getTypeNav = ()=> requests({url:"/product/getBaseCategoryList",meth
 export const getBanner = ()=>mockRequests({url:"/banner",method:"get"})
 // 获取floor数据
 export const getFloor = ()=>mockRequests({url:"/floor",method:"GET"})
+// 获取搜索页面的数据
+export const getSearch = (params)=>requests({url:"/list",method:"POST",data:params})

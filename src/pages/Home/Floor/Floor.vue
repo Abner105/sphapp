@@ -63,12 +63,7 @@
 
 export default {
   name: "Floor",
-  props: {
-    list: {
-      type: Object,
-      default: {},
-    },
-  },
+  props: ["list"],
 };
 </script>
 
