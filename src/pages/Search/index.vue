@@ -64,7 +64,6 @@ export default {
     },
     // 删除面包屑方法
     delBread(index) {
-      console.log(index);
       switch (index) {
         // 删除关键字
         case 0:
@@ -110,7 +109,6 @@ export default {
     // 监听路由发生变化时，就合并参数，并发送请求，获取商品信息
     $route: {
       handler(newVal, old) {
-        // console.log(newVal.params)
         this.searchParams.category1Id = undefined;
         this.searchParams.category2Id = undefined;
         this.searchParams.category3Id = undefined;
