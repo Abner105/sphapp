@@ -3,9 +3,9 @@
     <type-nav />
     <div class="main">
       <div class="py-container">
-        <Bread />
+        <Bread :breadList="breadList" />
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector @brand="brand"/>
         <Detail />
       </div>
     </div>
@@ -46,25 +46,44 @@ export default {
   //   // console.log(this.searchParams);
   // },
   // mounted() {
-  //   this.$store.dispatch("getSearchInfo", this.searchParams);
+  //   // let temParams = {};
+  //   Object.assign(this.searchParams, this.$route.params, this.$route.query);
+  //   // Object.assign(this.searchParams, temParams);
+  //   // console.log(temParams);
   // },
+  methods:{
+    brand(brand){
+      this.breadList.splice(2,1,brand)
+      console.log(this.breadList)
+    }
+  },
   computed: {
     ...mapState({
       searchInfo: (state) => state.search.searchInfo,
     }),
+    breadList() {
+      let list = [this.searchParams.keyword, this.searchParams.categoryName];
+      return list;
+    },
   },
   watch: {
     // 监听路由发生变化时，就合并参数，并发送请求，获取商品信息
     $route: {
       handler(newVal, old) {
-        console.log('1111')
+        this.searchParams.category1Id = undefined;
+        this.searchParams.category2Id = undefined;
+        this.searchParams.category3Id = undefined;
         Object.assign(this.searchParams, newVal.params, newVal.query);
-        this.$store.dispatch("getSearchInfo", this.searchParams);
-        this.searchParams.category1Id = "";
-        this.searchParams.category2Id = "";
-        this.searchParams.category3Id = "";
       },
       immediate: true,
+    },
+    searchParams: {
+      handler(newVal, old) {
+        // console.log(this.searchParams);
+        this.$store.dispatch("getSearchInfo", newVal);
+      },
+      immediate: true,
+      deep: true,
     },
   },
 };

@@ -7,16 +7,28 @@
       </li>
     </ul>
     <ul class="fl sui-tag">
-      <li class="with-x">手机</li>
-      <li class="with-x">iphone<i>×</i></li>
-      <li class="with-x">华为<i>×</i></li>
-      <li class="with-x">OPPO<i>×</i></li>
+      <li class="with-x" v-for="(bread,index) in breadListSub" :key="index" v-show="bread">
+       {{bread}}<i>×</i>
+      </li>
     </ul>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  name:"Bread",
+  props:["breadList"],
+  data(){
+    return {
+      breadListSub:[]
+    }
+  },
+  watch:{
+    breadList(newVal,old){
+      this.breadListSub = newVal
+    }
+  }
+};
 </script>
 
 <style scoped lang="less">

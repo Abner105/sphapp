@@ -67,6 +67,7 @@ export default {
       // 模板字符串传参
       // this.$router.push(`/search/${this.keyword}?k=${this.keyword.toUpperCase()}`)
       // 配置传参，需要改路由名称,
+      this.keyword = this.keyword.trim()
       const location = {
         name: "search",
         params: {
