@@ -7,8 +7,13 @@
       </li>
     </ul>
     <ul class="fl sui-tag">
-      <li class="with-x" v-for="(bread,index) in breadListSub" :key="index" v-show="bread">
-       {{bread}}<i>×</i>
+      <li
+        class="with-x"
+        v-for="(bread, index) in breadListSub"
+        :key="index"
+        v-show="bread"
+      >
+        {{ bread }}<i @click="delClick(index)">×</i>
       </li>
     </ul>
   </div>
@@ -16,16 +21,25 @@
 
 <script>
 export default {
-  name:"Bread",
-  props:["breadList"],
-  data(){
+  name: "Bread",
+  props: ["breadList"],
+  data() {
     return {
-      breadListSub:[]
-    }
+      breadListSub: [],
+    };
   },
-  watch:{
-    breadList(newVal,old){
-      this.breadListSub = newVal
+  watch: {
+    breadList: {
+      handler(newVal, old) {
+        this.breadListSub = newVal;
+      },
+      immediate: true,
+    },
+  },
+  methods:{
+    delClick(index){
+      console.log('222')
+      this.$emit("delBread",index)
     }
   }
 };

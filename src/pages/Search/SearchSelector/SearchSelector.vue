@@ -34,9 +34,10 @@ import {mapGetters} from "vuex"
       ...mapGetters(['attrsList',"trademarkList"])
     },
     methods:{
+      // 选择品牌事件
       brandClick(brand){
-        console.log(brand.tmName)
-        this.$emit("brand",brand.tmName)
+        // console.log(brand)
+        this.$emit("brand",brand)
       }
     }
   }

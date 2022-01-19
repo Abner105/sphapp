@@ -3,9 +3,9 @@
     <type-nav />
     <div class="main">
       <div class="py-container">
-        <Bread :breadList="breadList" />
+        <Bread :breadList="breadList" @delBread="delBread" />
         <!--selector-->
-        <SearchSelector @brand="brand"/>
+        <SearchSelector @brand="brand" />
         <Detail />
       </div>
     </div>
@@ -34,6 +34,7 @@ export default {
         props: [],
         trademark: "",
       },
+      breadList: [],
     };
   },
   components: {
@@ -51,25 +52,65 @@ export default {
   //   // Object.assign(this.searchParams, temParams);
   //   // console.log(temParams);
   // },
-  methods:{
-    brand(brand){
-      this.breadList.splice(2,1,brand)
-      console.log(this.breadList)
-    }
+  methods: {
+    // 监听子组件的品牌点击查询时间，改变searchParams
+    brand(brand) {
+      // 单选
+      this.breadList.splice(2, 1, brand.tmName);
+      // Object.assign(this.searchParams, {
+      //   trademark: `${brand.tmId}:${brand.tmName}`,
+      // });
+      this.searchParams.trademark = `${brand.tmId}:${brand.tmName}`;
+    },
+    // 删除面包屑方法
+    delBread(index) {
+      console.log(index);
+      switch (index) {
+        // 删除关键字
+        case 0:
+          // 清空路由
+          this.searchParams.keyword = undefined
+          if (this.$route.query){
+            this.$router.push({
+              name:"search",
+              query:this.$route.query
+            })
+          }else{
+            this.$router.push("/search")
+          }
+          // 清空header组件的输入框
+          this.$bus.$emit("clearInput")
+          break;
+        // 删除分类
+        case 1:
+          this.searchParams.categoryName = undefined;
+          if (this.$route.params){
+            this.$router.push({
+              name:"search",
+              params:this.$route.params
+            })
+          }else{
+            this.$router.push("/search")
+          }
+          break;
+        // 删除品牌
+        case 2:
+          this.searchParams.trademark = undefined;
+          this.breadList.splice(2,1,undefined)
+          break
+      }
+    },
   },
   computed: {
     ...mapState({
       searchInfo: (state) => state.search.searchInfo,
     }),
-    breadList() {
-      let list = [this.searchParams.keyword, this.searchParams.categoryName];
-      return list;
-    },
   },
   watch: {
     // 监听路由发生变化时，就合并参数，并发送请求，获取商品信息
     $route: {
       handler(newVal, old) {
+        // console.log(newVal.params)
         this.searchParams.category1Id = undefined;
         this.searchParams.category2Id = undefined;
         this.searchParams.category3Id = undefined;
@@ -77,10 +118,17 @@ export default {
       },
       immediate: true,
     },
+    // searchParams发送变化，就发送请求
     searchParams: {
       handler(newVal, old) {
         // console.log(this.searchParams);
         this.$store.dispatch("getSearchInfo", newVal);
+        this.breadList.splice(
+          0,
+          2,
+          this.searchParams.keyword,
+          this.searchParams.categoryName
+        );
       },
       immediate: true,
       deep: true,

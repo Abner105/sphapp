@@ -60,6 +60,11 @@ export default {
       keyword: "",
     };
   },
+  mounted() {
+    this.$bus.$on("clearInput", () => {
+      this.keyword = "";
+    });
+  },
   methods: {
     goSearch() {
       // 路由传参：字符串传参
@@ -67,15 +72,15 @@ export default {
       // 模板字符串传参
       // this.$router.push(`/search/${this.keyword}?k=${this.keyword.toUpperCase()}`)
       // 配置传参，需要改路由名称,
-      this.keyword = this.keyword.trim()
+      this.keyword = this.keyword.trim();
       const location = {
         name: "search",
         params: {
           keyword: this.keyword || undefined, // 路由传参如果是空串会导致路径缺失，兼任处理
         },
       };
-      if (this.$route.query){
-        location.query = this.$route.query
+      if (this.$route.query) {
+        location.query = this.$route.query;
       }
 
       this.$router.push(location);
