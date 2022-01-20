@@ -38,7 +38,7 @@ export default {
   },
   methods:{
     delClick(index){
-      console.log('222')
+      // console.log('222')
       this.$emit("delBread",index)
     }
   }

@@ -16,7 +16,7 @@
       <div class="fl key">{{attr.attrName}}</div>
       <div class="fl value">
         <ul class="type-list">
-          <li v-for="(item,index) in attr.attrValueList" :key="index">
+          <li v-for="(item,index) in attr.attrValueList" :key="index" @click="attrClick(attr,item)">
             <a>{{item}}</a>
           </li>
         </ul>
@@ -38,6 +38,10 @@ import {mapGetters} from "vuex"
       brandClick(brand){
         // console.log(brand)
         this.$emit("brand",brand)
+      },
+      // 选择其他属性
+      attrClick(attr,item){
+        this.$emit("attr",attr,item)
       }
     }
   }

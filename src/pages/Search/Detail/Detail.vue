@@ -4,30 +4,34 @@
     <div class="sui-navbar">
       <div class="navbar-inner filter">
         <ul class="sui-nav">
-          <li class="active">
-            <a href="#">综合</a>
+          <li :class="{ active: order.includes('1') }">
+            <a
+              >综合
+              <span v-show="order.includes('1')"
+                ><i v-show="order.includes('asc')">⬆</i
+                ><i v-show="order.includes('desc')">⬇</i></span
+              >
+            </a>
           </li>
-          <li>
-            <a href="#">销量</a>
-          </li>
-          <li>
-            <a href="#">新品</a>
-          </li>
-          <li>
-            <a href="#">评价</a>
-          </li>
-          <li>
-            <a href="#">价格⬆</a>
-          </li>
-          <li>
-            <a href="#">价格⬇</a>
+          <li :class="{ active: order.includes('2') }">
+            <a
+              >价格
+              <span v-show="order.includes('2')"
+                ><i v-show="order.includes('asc')">⬆</i
+                ><i v-show="order.includes('desc')">⬇</i></span
+              ></a
+            >
           </li>
         </ul>
       </div>
     </div>
     <div class="goods-list">
       <ul class="yui3-g">
-        <li class="yui3-u-1-5" v-for="(good,index) in goodsList" :key="good.id">
+        <li
+          class="yui3-u-1-5"
+          v-for="(good, index) in goodsList"
+          :key="good.id"
+        >
           <div class="list-wrap">
             <div class="p-img">
               <a href="item.html" target="_blank"
@@ -37,15 +41,11 @@
             <div class="price">
               <strong>
                 <em>¥</em>
-                <i>{{good.price}}</i>
+                <i>{{ good.price }}</i>
               </strong>
             </div>
             <div class="attr">
-              <a
-                target="_blank"
-                href="item.html"
-                >{{good.title}}</a
-              >
+              <a target="_blank" href="item.html">{{ good.title }}</a>
             </div>
             <div class="commit">
               <i class="command">已有<span>2000</span>人评价</i>
@@ -98,12 +98,13 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex"
+import { mapGetters } from "vuex";
 export default {
   name: "Detail",
-  computed:{
-    ...mapGetters(["goodsList"])
-  }
+  computed: {
+    ...mapGetters(["goodsList"]),
+  },
+  props: ["order"],
 };
 </script>
 
@@ -141,6 +142,9 @@ export default {
             padding: 11px 15px;
             color: #777;
             text-decoration: none;
+            i{
+              font-size: 16px;
+            }
           }
 
           &.active {
