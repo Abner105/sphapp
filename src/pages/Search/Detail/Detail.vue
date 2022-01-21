@@ -4,7 +4,7 @@
     <div class="sui-navbar">
       <div class="navbar-inner filter">
         <ul class="sui-nav">
-          <li :class="{ active: order.includes('1') }">
+          <li :class="{ active: order.includes('1') }" @click="liClick(1)">
             <a
               >综合
               <span v-show="order.includes('1')"
@@ -13,7 +13,7 @@
               >
             </a>
           </li>
-          <li :class="{ active: order.includes('2') }">
+          <li :class="{ active: order.includes('2') }" @click="liClick(2)">
             <a
               >价格
               <span v-show="order.includes('2')"
@@ -65,46 +65,25 @@
         </li>
       </ul>
     </div>
-    <div class="fr page">
-      <div class="sui-pagination clearfix">
-        <ul>
-          <li class="prev disabled">
-            <a href="#">«上一页</a>
-          </li>
-          <li class="active">
-            <a href="#">1</a>
-          </li>
-          <li>
-            <a href="#">2</a>
-          </li>
-          <li>
-            <a href="#">3</a>
-          </li>
-          <li>
-            <a href="#">4</a>
-          </li>
-          <li>
-            <a href="#">5</a>
-          </li>
-          <li class="dotted"><span>...</span></li>
-          <li class="next">
-            <a href="#">下一页»</a>
-          </li>
-        </ul>
-        <div><span>共10页&nbsp;</span></div>
-      </div>
-    </div>
+    <pagination />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import Pagination from '@/components/Pagination/Pagination.vue';
 export default {
+  components: { Pagination },
   name: "Detail",
   computed: {
     ...mapGetters(["goodsList"]),
   },
   props: ["order"],
+  methods:{
+    liClick(flag){
+      this.$emit("sortChang",flag)
+    }
+  }
 };
 </script>
 

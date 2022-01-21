@@ -6,7 +6,7 @@
         <Bread :breadList="breadList" @delBread="delBread" />
         <!--selector-->
         <SearchSelector @brand="brand" @attr="attr"/>
-        <Detail :order="this.searchParams.order"/>
+        <Detail :order="this.searchParams.order" @sortChang="sortChang"/>
       </div>
     </div>
   </div>
@@ -28,7 +28,7 @@ export default {
         category3Id: undefined,
         categoryName: undefined,
         keyword: undefined,
-        order: "2:asc",
+        order: "1:desc",
         pageNo: 1,
         pageSize: 10,
         props: [],
@@ -114,6 +114,15 @@ export default {
           break
       }
     },
+    // 点击综合与价格进行排序展示
+    sortChang(flag){
+      let order = this.searchParams.order.split(":")
+      if (flag == order[0]){
+        this.searchParams.order=`${flag}:${order[1]=="desc"?"asc":"desc"}`
+      }else{
+        this.searchParams.order=`${flag}:desc`
+      }
+    }
   },
   computed: {
     ...mapState({

@@ -3,15 +3,16 @@ import App from './App.vue'
 import router from "@/router"
 import store from "@/store"
 import TypeNav from"./components/TypeNav/TypeNav.vue"
+import Carousel from "@/components/Carousel/Carousel.vue"
+import Pagination from "@/components/Pagination/Pagination.vue"
 import "@/mock/mackServe.js"
 import 'swiper/css/swiper.css'
-import Carousel from "@/components/Carousel/Carousel.vue"
 // 注册全局组件
 Vue.component("TypeNav",TypeNav)
 Vue.component("Carousel",Carousel)
+Vue.component("Pagination",Pagination)
 
-
-
+// 阻止启动生产消息
 Vue.config.productionTip = false
 
 new Vue({
