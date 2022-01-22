@@ -21,7 +21,7 @@ const getters = {
 const actions = {
   async getSearchInfo({commit},params){
     const res = await getSearch(params)
-    // console.log(res)
+    console.log(res.data)
     if (res.code == 200){
       commit("GETSEARCHINFO",res.data)
     }

@@ -65,25 +65,38 @@
         </li>
       </ul>
     </div>
-    <pagination />
+    <pagination
+      :pageNo="pageNo"
+      :total="total"
+      :continues="5"
+      :pageOne="pageSize"
+      v-on='$listeners'
+    />
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import Pagination from '@/components/Pagination/Pagination.vue';
+import { mapGetters, mapState } from "vuex";
+import Pagination from "@/components/Pagination/Pagination.vue";
 export default {
   components: { Pagination },
   name: "Detail",
   computed: {
     ...mapGetters(["goodsList"]),
+    ...mapState({
+      total: (state) => state.search.searchInfo.total,
+      pageNo: (state) => state.search.searchInfo.pageNo,
+      pageSize: (state) => state.search.searchInfo.pageSize,
+    }),
   },
   props: ["order"],
-  methods:{
-    liClick(flag){
-      this.$emit("sortChang",flag)
-    }
-  }
+  methods: {
+    liClick(flag) {
+      this.$emit("sortChang", flag);
+    },
+    
+  },
+  // inheritAttrs: false,
 };
 </script>
 
@@ -121,7 +134,7 @@ export default {
             padding: 11px 15px;
             color: #777;
             text-decoration: none;
-            i{
+            i {
               font-size: 16px;
             }
           }

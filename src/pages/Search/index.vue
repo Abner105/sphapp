@@ -6,7 +6,7 @@
         <Bread :breadList="breadList" @delBread="delBread" />
         <!--selector-->
         <SearchSelector @brand="brand" @attr="attr"/>
-        <Detail :order="this.searchParams.order" @sortChang="sortChang"/>
+        <Detail :order="this.searchParams.order" @sortChang="sortChang" @changePages="changePages"/>
       </div>
     </div>
   </div>
@@ -122,11 +122,17 @@ export default {
       }else{
         this.searchParams.order=`${flag}:desc`
       }
-    }
+    },
+    // 切换分页器
+    changePages(index){
+      this.searchParams.pageNo = index
+      this.searchParams.pageSize = this.pageSize
+    },
   },
   computed: {
     ...mapState({
-      searchInfo: (state) => state.search.searchInfo,
+      // searchInfo: (state) => state.search.searchInfo,
+      pageSize: (state) => state.search.searchInfo.pageSize,
     }),
   },
   watch: {
@@ -144,7 +150,7 @@ export default {
           this.searchParams.categoryName,
           this.searchParams.trademark && this.searchParams.trademark.split(":")[1]
         );
-        console.log(this.breadList)
+        // console.log(this.breadList)
       },
       immediate: true,
     },
