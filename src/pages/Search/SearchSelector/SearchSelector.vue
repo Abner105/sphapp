@@ -60,7 +60,10 @@ import {mapGetters} from "vuex"
       overflow: hidden;
 
       .brand {
-        padding-bottom: 40px !important;
+        // padding-bottom: 40px !important;
+        // height: 30px;
+        // margin: auto 0;
+        margin-top: 10px;
       }
     }
 
@@ -69,6 +72,7 @@ import {mapGetters} from "vuex"
       position: relative;
       border-top: 1px solid #ddd;
       overflow: hidden;
+      background-color: #f1f1f1;
 
       .key {
         width: 100px;
@@ -81,10 +85,12 @@ import {mapGetters} from "vuex"
 
       .value {
         overflow: hidden;
-        padding: 10px 0 0 15px;
+        padding: 5px 0 5px 15px;
         color: #333;
         margin-left: 120px;
         padding-right: 90px;
+        
+      background-color: #fff;
 
         .logo-list {
           li {

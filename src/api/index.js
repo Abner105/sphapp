@@ -9,3 +9,5 @@ export const getBanner = ()=>mockRequests({url:"/banner",method:"get"})
 export const getFloor = ()=>mockRequests({url:"/floor",method:"GET"})
 // 获取搜索页面的数据
 export const getSearch = (params)=>requests({url:"/list",method:"POST",data:params})
+// 获取商品详情页信息
+export const getGood = (skuId)=>requests({url:`/item/${skuId}`,method:"GET"})

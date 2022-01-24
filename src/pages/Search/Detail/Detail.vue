@@ -33,10 +33,10 @@
           :key="good.id"
         >
           <div class="list-wrap">
-            <div class="p-img">
-              <a href="item.html" target="_blank"
-                ><img :src="good.defaultImg"
-              /></a>
+            <div class="p-img"  @click="goDetail(good.id)">
+              <a>
+                <img :src="good.defaultImg" />
+              </a>
             </div>
             <div class="price">
               <strong>
@@ -70,7 +70,7 @@
       :total="total"
       :continues="5"
       :pageOne="pageSize"
-      v-on='$listeners'
+      v-on="$listeners"
     />
   </div>
 </template>
@@ -94,7 +94,14 @@ export default {
     liClick(flag) {
       this.$emit("sortChang", flag);
     },
-    
+    // 点击商品图片，进入商品详情页
+    goDetail(id){
+      // console.log(id)
+      this.$router.push({
+        name:"detail",
+        params:{skuid:id}
+      })
+    }
   },
   // inheritAttrs: false,
 };
