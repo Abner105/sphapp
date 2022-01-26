@@ -92,12 +92,18 @@
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt" />
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <input
+                  autocomplete="off"
+                  class="itxt"
+                  v-model.number="skuNum"
+                  @input="changeNum1"
+                  @change="changeNum2"
+                />
+                <a class="plus" @click="skuNum++">+</a>
+                <a class="mins" @click="subSkuNum">-</a>
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <a @click="addShopCart">加入购物车</a>
               </div>
             </div>
           </div>
@@ -341,6 +347,11 @@ import Zoom from "./Zoom/Zoom";
 import { mapGetters, mapState } from "vuex";
 export default {
   name: "Detail",
+  data() {
+    return {
+      skuNum: 1,
+    };
+  },
   mounted() {
     this.$store.dispatch("getGoodDetail", this.$route.params.skuid);
   },
@@ -361,6 +372,38 @@ export default {
       });
       attr.isChecked = 1;
       // console.log("attr");
+    },
+    // 输入框输入商品数量,限制只能输入正整数
+    changeNum1(event) {
+      let value = event.target.value.replace(/\D/g, "");
+      value = parseInt(value);
+      if (isNaN(value)) {
+        value = "";
+      }
+      event.target.value = value;
+      this.skuNum = value;
+    },
+    changeNum2() {
+      if (!this.skuNum) {
+        this.skuNum = 1;
+      }
+    },
+    // 减数量，不能减到0以下
+    subSkuNum() {
+      this.skuNum--;
+      if (this.skuNum <= 0) {
+        this.skuNum = 1;
+      }
+    },
+    // 添加商品到购物车
+    addShopCart() {
+      // 推送给action，发送请求
+      this.$store.dispatch("addShopCart",{skuId:this.$route.params.skuid,skuNum:this.skuNum}).then((res)=>{
+        // 添加购物车成功，跳转路由
+        this.$router.push("/addcartsuccess")
+      }).catch((err)=>{
+        console.log(err)
+      })
     },
   },
 };
@@ -558,6 +601,7 @@ export default {
                 position: absolute;
                 right: -8px;
                 border: 1px solid #ccc;
+                cursor: default;
               }
 
               .mins {
@@ -573,7 +617,7 @@ export default {
 
             .add {
               float: left;
-
+              cursor: default;
               a {
                 background-color: #e1251b;
                 padding: 0 25px;
