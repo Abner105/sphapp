@@ -400,7 +400,11 @@ export default {
       // 推送给action，发送请求
       this.$store.dispatch("addShopCart",{skuId:this.$route.params.skuid,skuNum:this.skuNum}).then((res)=>{
         // 添加购物车成功，跳转路由
-        this.$router.push("/addcartsuccess")
+        this.$router.push({path:"/addcartsuccess",query:{skuNum:this.skuNum}})
+        // 将产品参数存与路由和sessionstorage中
+        sessionStorage.setItem("skuInfo",JSON.stringify(this.skuInfo))
+        sessionStorage.setItem("spuSaleAttrList",JSON.stringify(this.spuSaleAttrList))
+        console.log(sessionStorage)
       }).catch((err)=>{
         console.log(err)
       })

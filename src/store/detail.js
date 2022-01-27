@@ -19,7 +19,7 @@ const actions={
     const res = await addCart(skuId,skuNum)
     // console.log(res)
     if (res.code==200){
-      return "添加购物车成功"
+      return res.data
     }else{
       return Promise.reject("添加购物车失败")
     }
