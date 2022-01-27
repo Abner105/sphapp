@@ -13,3 +13,5 @@ export const getSearch = (params)=>requests({url:"/list",method:"POST",data:para
 export const getGood = (skuId)=>requests({url:`/item/${skuId}`,method:"GET"})
 // 添加商品到购物车
 export const addCart = (skuId,skuNum)=>requests({url:`/cart/addToCart/${skuId}/${skuNum}`,method:"post"})
+// 获取购物车数据
+export const getCart =()=>requests({url:"/cart/cartList",method:"GET"})

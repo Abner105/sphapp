@@ -46,7 +46,6 @@ export default {
       this.$refs.mask.style.top = top + "px";
       this.$refs.big.style.top = - 2 * top + "px";
       this.$refs.big.style.left = - 2* left + "px";
-
     },
   },
 };

@@ -44,8 +44,8 @@
                 <i>{{ good.price }}</i>
               </strong>
             </div>
-            <div class="attr">
-              <a target="_blank" href="item.html">{{ good.title }}</a>
+            <div class="attr" @click="goDetail(good.id)">
+              <a>{{ good.title }}</a>
             </div>
             <div class="commit">
               <i class="command">已有<span>2000</span>人评价</i>

@@ -6,6 +6,7 @@ const Register = () => import("@/pages/Register")
 const Search = () => import("@/pages/Search")
 const GoodDetail = ()=>import("@/pages/GoodDetail/GoodDetail.vue")
 const AddCartSuccess = ()=>import("@/pages/AddCartSuccess/AddCartSuccess.vue")
+const ShopCart=()=>import("@/pages/ShopCart/ShopCart.vue")
 // 配置路由
 const routes = [
   // 路由元数据meta，show用于控制footer组件的显示
@@ -51,6 +52,11 @@ const routes = [
   {
     path:"/addcartsuccess",
     component:AddCartSuccess,
+    meta:{show:true},
+  },
+  {
+    path:"/shopcart",
+    component:ShopCart,
     meta:{show:true},
   }
 ]

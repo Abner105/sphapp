@@ -403,8 +403,8 @@ export default {
         this.$router.push({path:"/addcartsuccess",query:{skuNum:this.skuNum}})
         // 将产品参数存与路由和sessionstorage中
         sessionStorage.setItem("skuInfo",JSON.stringify(this.skuInfo))
-        sessionStorage.setItem("spuSaleAttrList",JSON.stringify(this.spuSaleAttrList))
-        console.log(sessionStorage)
+        // sessionStorage.setItem("spuSaleAttrList",JSON.stringify(this.spuSaleAttrList))
+        // console.log(sessionStorage)
       }).catch((err)=>{
         console.log(err)
       })

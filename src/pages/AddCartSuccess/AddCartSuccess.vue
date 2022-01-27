@@ -5,18 +5,18 @@
       <div class="goods">
         <div class="left-good">
           <div class="left-pic">
-            <img src="good.skuDefaultImg" />
+            <img :src="skuInfo.skuDefaultImg" />
           </div>
           <div class="right-info">
             <p class="title">
               {{skuInfo.skuName}}
             </p>
-            <p class="attr">颜色：WFZ5099IH/5L钛金釜内胆 数量：{{$route.query.skuNum}}</p>
+            <p class="attr">{{skuInfo.skuDesc}} 数量：{{$route.query.skuNum}}</p>
           </div>
         </div>
         <div class="right-gocart">
-          <a href="javascript:" class="sui-btn btn-xlarge">查看商品详情</a>
-          <a href="javascript:">去购物车结算 > </a>
+          <router-link :to="`/detail/${skuInfo.id}`" class="sui-btn btn-xlarge">查看商品详情</router-link>
+          <router-link to="/shopcart">去购物车结算</router-link>
         </div>
       </div>
     </div>
@@ -33,10 +33,11 @@ export default {
     };
   },
   mounted() {
+    // 添加购物车存入缓存的数据
     this.skuInfo = JSON.parse(sessionStorage.getItem("skuInfo"));
-    this.spuSaleAttrList = JSON.parse(
-      sessionStorage.getItem("spuSaleAttrList")
-    );
+    // this.spuSaleAttrList = JSON.parse(
+    //   sessionStorage.getItem("spuSaleAttrList")
+    // );
   },
 };
 </script>

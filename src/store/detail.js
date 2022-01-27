@@ -1,6 +1,8 @@
 import { getGood,addCart } from "@/api"
+import {getUUID} from "@/utils/uuid_token"
 const state={
-  goodDetail:{}
+  goodDetail:{},
+  uuid_token:getUUID()
 }
 const mutations ={
   GETGOODDETAIL(state,res){
