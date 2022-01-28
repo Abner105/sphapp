@@ -11,7 +11,7 @@
         <div class="cart-th6">操作</div>
       </div>
       <div class="cart-body">
-        <ul class="cart-list" v-for="(good, index) in cartList">
+        <ul class="cart-list" v-for="(good, index) in cartList" :key="index">
           <li class="cart-list-con1">
             <input type="checkbox" name="chk_list" :checked="good.isChecked" />
           </li>
@@ -23,15 +23,17 @@
             <span class="price">{{ good.skuPrice }}</span>
           </li>
           <li class="cart-list-con5">
-            <a href="javascript:void(0)" class="mins">-</a>
+            <a @click="handlerNum('mins', index, good.skuId)" class="mins">-</a>
             <input
               autocomplete="off"
-              type="text"
+              type="number"
               :value="good.skuNum"
               minnum="1"
               class="itxt"
+              @change="handlerNum('itxt', $event.target.value, good.skuId)"
+              ref="numInput"
             />
-            <a href="javascript:void(0)" class="plus">+</a>
+            <a @click="handlerNum('plus', index, good.skuId)" class="plus">+</a>
           </li>
           <li class="cart-list-con6">
             <span class="sum">{{ good.skuPrice * good.skuNum }}</span>
@@ -60,7 +62,7 @@
         </div>
         <div class="sumprice">
           <em>总价（不含运费） ：</em>
-          <i class="summoney">{{sumPrice}}</i>
+          <i class="summoney">{{ sumPrice }}</i>
           <em> 元</em>
         </div>
         <div class="sumbtn">
@@ -72,6 +74,7 @@
 </template>
 
 <script>
+import debounce from "@/utils/debounce";
 import { mapState } from "vuex";
 export default {
   name: "ShopCart",
@@ -96,6 +99,41 @@ export default {
         }
       }, 0);
     },
+  },
+  methods: {
+    handlerNum(type, index, skuId) {
+      switch (type) {
+        case "mins":
+          this.$refs.numInput[index].value--;
+          if (this.$refs.numInput[index].value < 1) {
+            this.$refs.numInput[index].value = 1;
+          }
+          break;
+        case "plus":
+          this.$refs.numInput[index].value++;
+          break;
+        case "itxt":
+          break;
+      }
+      let diffNum = this.$refs.numInput[index].value - this.cartList[index].skuNum;
+      console.log(diffNum);
+      this.debounceAlterNum(skuId,diffNum)
+    },
+    // 修改购物车商品数量
+    alterNum(skuId, skuNum) {
+      console.log(skuId,skuNum)
+      this.$store
+        .dispatch("addShopCart", { skuId, skuNum })
+        .then(() => {
+          // 添加购物车成功后，获取购物车的商品数据
+          this.$store.dispatch("getCartList");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    // 添加购物车防抖的返回函数
+    debounceAlterNum:debounce("alterNum", 1000)
   },
 };
 </script>
@@ -202,10 +240,21 @@ export default {
           input {
             border: 1px solid #ddd;
             width: 40px;
-            height: 33px;
+            height: 32px;
             float: left;
             text-align: center;
             font-size: 14px;
+          }
+          /* 谷歌,去除type=number的加减键 */
+          input::-webkit-outer-spin-button,
+          input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            appearance: none;
+            margin: 0;
+          }
+          /* 火狐 */
+          input {
+            -moz-appearance: textfield;
           }
 
           .plus {

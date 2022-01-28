@@ -94,10 +94,10 @@
               <div class="controls">
                 <input
                   autocomplete="off"
+                  type="number"
                   class="itxt"
                   v-model.number="skuNum"
-                  @input="changeNum1"
-                  @change="changeNum2"
+                  @change="changeNum"
                 />
                 <a class="plus" @click="skuNum++">+</a>
                 <a class="mins" @click="subSkuNum">-</a>
@@ -373,18 +373,19 @@ export default {
       attr.isChecked = 1;
       // console.log("attr");
     },
+    // changeNum1(event) {
+    //   let value = event.target.value.replace(/\D/g, "");
+    //   value = parseInt(value);
+    //   if (isNaN(value)) {
+    //     value = "";
+    //   }
+    //   event.target.value = value;
+    //   this.skuNum = value;
+    // },
     // 输入框输入商品数量,限制只能输入正整数
-    changeNum1(event) {
-      let value = event.target.value.replace(/\D/g, "");
-      value = parseInt(value);
-      if (isNaN(value)) {
-        value = "";
-      }
-      event.target.value = value;
-      this.skuNum = value;
-    },
-    changeNum2() {
-      if (!this.skuNum) {
+    changeNum() {
+      this.skuNum = parseInt(this.skuNum);
+      if (!this.skuNum || this.skuNum <= 0) {
         this.skuNum = 1;
       }
     },
@@ -398,16 +399,25 @@ export default {
     // 添加商品到购物车
     addShopCart() {
       // 推送给action，发送请求
-      this.$store.dispatch("addShopCart",{skuId:this.$route.params.skuid,skuNum:this.skuNum}).then((res)=>{
-        // 添加购物车成功，跳转路由
-        this.$router.push({path:"/addcartsuccess",query:{skuNum:this.skuNum}})
-        // 将产品参数存与路由和sessionstorage中
-        sessionStorage.setItem("skuInfo",JSON.stringify(this.skuInfo))
-        // sessionStorage.setItem("spuSaleAttrList",JSON.stringify(this.spuSaleAttrList))
-        // console.log(sessionStorage)
-      }).catch((err)=>{
-        console.log(err)
-      })
+      this.$store
+        .dispatch("addShopCart", {
+          skuId: this.$route.params.skuid,
+          skuNum: this.skuNum,
+        })
+        .then((res) => {
+          // 添加购物车成功，跳转路由
+          this.$router.push({
+            path: "/addcartsuccess",
+            query: { skuNum: this.skuNum },
+          });
+          // 将产品参数存与路由和sessionstorage中
+          sessionStorage.setItem("skuInfo", JSON.stringify(this.skuInfo));
+          // sessionStorage.setItem("spuSaleAttrList",JSON.stringify(this.spuSaleAttrList))
+          // console.log(sessionStorage)
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
@@ -592,6 +602,17 @@ export default {
                 float: left;
                 border-right: 0;
                 text-align: center;
+              }
+              /* 谷歌 去除type=number时的加减框 */
+              input::-webkit-outer-spin-button,
+              input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                appearance: none;
+                margin: 0;
+              }
+              /* 火狐 */
+              input {
+                -moz-appearance: textfield;
               }
 
               .plus,
