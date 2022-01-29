@@ -30,7 +30,7 @@
               :value="good.skuNum"
               minnum="1"
               class="itxt"
-              @change="handlerNum('itxt', $event.target.value, good.skuId)"
+              @change="handlerNum('itxt', index, good.skuId)"
               ref="numInput"
             />
             <a @click="handlerNum('plus', index, good.skuId)" class="plus">+</a>
@@ -101,27 +101,38 @@ export default {
     },
   },
   methods: {
+    // 处理购物车的添加减少数量
     handlerNum(type, index, skuId) {
+      let value = this.$refs.numInput[index].value;
       switch (type) {
+        // 点击减减数量
         case "mins":
-          this.$refs.numInput[index].value--;
-          if (this.$refs.numInput[index].value < 1) {
-            this.$refs.numInput[index].value = 1;
-          }
+          value > 1 && value--;
+          let diffNum = value - this.cartList[index].skuNum;
+          this.$refs.numInput[index].value = value;
+          if (diffNum) this.debounceAlterNum(skuId, diffNum);
           break;
+        // 点击加加数量
         case "plus":
-          this.$refs.numInput[index].value++;
+          value++;
+          diffNum = value - this.cartList[index].skuNum;
+          this.$refs.numInput[index].value = value;
+          if (diffNum) this.debounceAlterNum(skuId, diffNum);
           break;
+        // 输入框输入数量
         case "itxt":
+          value = parseInt(value);
+          if (!value || value <= 0) {
+            value = this.cartList[index].skuNum;
+          }
+          diffNum = value - this.cartList[index].skuNum;
+          this.$refs.numInput[index].value = value;
+          if (diffNum) this.alterNum(skuId, diffNum);
           break;
       }
-      let diffNum = this.$refs.numInput[index].value - this.cartList[index].skuNum;
-      console.log(diffNum);
-      this.debounceAlterNum(skuId,diffNum)
     },
-    // 修改购物车商品数量
+    // 发送请求，修改购物车商品数量
     alterNum(skuId, skuNum) {
-      console.log(skuId,skuNum)
       this.$store
         .dispatch("addShopCart", { skuId, skuNum })
         .then(() => {
@@ -132,8 +143,8 @@ export default {
           console.log(err);
         });
     },
-    // 添加购物车防抖的返回函数
-    debounceAlterNum:debounce("alterNum", 1000)
+    // 添加购物车请求的防抖返回函数
+    debounceAlterNum: debounce("alterNum"),
   },
 };
 </script>
@@ -235,6 +246,7 @@ export default {
             width: 6px;
             text-align: center;
             padding: 8px;
+            cursor: default;
           }
 
           input {
@@ -265,6 +277,7 @@ export default {
             width: 6px;
             text-align: center;
             padding: 8px;
+            cursor: default;
           }
         }
 

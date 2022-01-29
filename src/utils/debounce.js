@@ -1,4 +1,4 @@
-const debounce=function(fn,delay){
+const debounce=function(fn,delay=500){
     // console.log(this)
     let timer = null
     return function(...arg){

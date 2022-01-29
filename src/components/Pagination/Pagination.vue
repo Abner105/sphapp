@@ -7,7 +7,7 @@
     <button v-show="starAndEnd.start > 2" disabled>···</button>
 
     <button
-      v-for="(n, i) in continues"
+      v-for="(n, i) in medialPages"
       :key="i"
       @click="changePage(n + starAndEnd.start - 1)"
       :class="{active:pageNo==( n + starAndEnd.start - 1)}"
@@ -27,7 +27,8 @@
       下一页
     </button>
 
-    <button style="margin-left: 30px">共 {{ total }} 条</button>
+    <button style="margin-left: 30px">共 {{ totalPages }} 页</button>
+
   </div>
 </template>
 
@@ -43,6 +44,13 @@ export default {
   computed: {
     totalPages() {
       return Math.ceil(this.total / this.pageOne);
+    },
+    medialPages(){
+      if(this.totalPages <= this.continues){
+        return this.totalPages
+      }else{
+        return this.continues
+      }
     },
     starAndEnd() {
       const { totalPages, continues, pageNo } = this;
