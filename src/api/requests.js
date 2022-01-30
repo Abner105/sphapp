@@ -3,8 +3,9 @@ import axios from "axios";
 // 引入进度条与样式
 import nprogress from "nprogress";
 import "nprogress/nprogress.css"
-// 引入detail仓库中的uuid
+// 引入detail仓库中的uuid,以及token
 import detail from "@/store/detail"
+import user from "@/store/user"
 
 const requests = axios.create({
   // 配置信息
@@ -17,6 +18,8 @@ requests.interceptors.request.use((config)=>{
   nprogress.start()
   // 请求头添加uuid(游客id)
   config.headers.userTempId = detail.state.uuid_token
+  // 请求头中添加token
+  config.headers.token = user.state.token
   return config
 },err=>err)
 // 响应拦截

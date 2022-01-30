@@ -13,7 +13,12 @@
       <div class="cart-body">
         <ul class="cart-list" v-for="(good, index) in cartList" :key="index">
           <li class="cart-list-con1">
-            <input type="checkbox" name="chk_list" :checked="good.isChecked" />
+            <input
+              type="checkbox"
+              name="chk_list"
+              :checked="good.isChecked"
+              @change="changeChecked($event.target.checked, good.skuId)"
+            />
           </li>
           <li class="cart-list-con2">
             <img :src="good.imgUrl" />
@@ -39,7 +44,7 @@
             <span class="sum">{{ good.skuPrice * good.skuNum }}</span>
           </li>
           <li class="cart-list-con7">
-            <a href="#none" class="sindelet">删除</a>
+            <a class="sindelet" @click="delGood(good.skuId)">删除</a>
             <br />
             <a href="#none">移到收藏</a>
           </li>
@@ -48,11 +53,16 @@
     </div>
     <div class="cart-tool">
       <div class="select-all">
-        <input class="chooseAll" type="checkbox" :checked="isAllCheck" />
+        <input
+          class="chooseAll"
+          type="checkbox"
+          :checked="isAllCheck && cartList.length"
+          @change="changeAll($event.target.checked)"
+        />
         <span>全选</span>
       </div>
       <div class="option">
-        <a href="#none">删除选中的商品</a>
+        <a @click="delGoods">删除选中的商品</a>
         <a href="#none">移到我的关注</a>
         <a href="#none">清除下柜商品</a>
       </div>
@@ -145,6 +155,44 @@ export default {
     },
     // 添加购物车请求的防抖返回函数
     debounceAlterNum: debounce("alterNum"),
+    // 删除单个购物车商品
+    delGood(skuId) {
+      this.$store
+        .dispatch("delGoodOne", skuId)
+        .then(() => {
+          this.$store.dispatch("getCartList");
+        })
+        .catch((err) => console.log(err));
+    },
+    // 删除所有商品
+    delGoods() {
+      this.$store
+        .dispatch("delGoodAll")
+        .then(() => {
+          this.$store.dispatch("getCartList");
+        })
+        .catch((err) => console.log(err));
+    },
+    // 改变单个商品的选中状态
+    changeChecked(isChecked, skuId) {
+      isChecked = isChecked == true ? "1" : "0";
+      this.$store
+        .dispatch("checkCartOne", { skuId, isChecked })
+        .then(() => {
+          this.$store.dispatch("getCartList");
+        })
+        .catch((err) => console.log(err));
+    },
+    // 全选和全部选操作
+    changeAll(checked) {
+      checked = checked == true ? "1" : "0";
+      this.$store
+        .dispatch("checkCartAll", checked)
+        .then(() => {
+          this.$store.dispatch("getCartList");
+        })
+        .catch((err) => console.log(err));
+    },
   },
 };
 </script>
@@ -294,6 +342,7 @@ export default {
 
           a {
             color: #666;
+            cursor: pointer;
           }
         }
       }
@@ -322,7 +371,7 @@ export default {
       padding: 10px;
       overflow: hidden;
       float: left;
-
+      cursor: pointer;
       a {
         float: left;
         padding: 0 10px;

@@ -15,3 +15,17 @@ export const getGood = (skuId)=>requests({url:`/item/${skuId}`,method:"GET"})
 export const addCart = (skuId,skuNum)=>requests({url:`/cart/addToCart/${skuId}/${skuNum}`,method:"post"})
 // 获取购物车数据
 export const getCart =()=>requests({url:"/cart/cartList",method:"GET"})
+// 删除购物车数据
+export const delGood=(skuId)=>requests({url:`/cart/deleteCart/${skuId}`,method:"delete"})
+// 改变产品的勾选状态/api/cart/checkCart/{skuID}/{isChecked}
+export const checkCart = (skuId,isChecked)=>requests({url:`/cart/checkCart/${skuId}/${isChecked}`,method:"get"})
+// 获取验证码
+export const getCode = (phone)=>requests({url:`/user/passport/sendCode/${phone}`,method:"get"})
+// 提交注册
+export const register = (data)=>requests({url:"/user/passport/register",method:"post",data})
+// 登录
+export const login = (data)=>requests({url:"/user/passport/login",method:"post",data})
+// 使用token 获取用户信息http://182.92.128.115/api/user/passport/auth/getUserInfo
+export const getUserInfo = ()=>requests({url:"/user/passport/auth/getUserInfo",method:"get"})
+// 退出登录
+export const logOut = ()=>requests({url:"/user/passport/logout",method:"get"})
