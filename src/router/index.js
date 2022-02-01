@@ -22,7 +22,7 @@ VueRouter.prototype.replace = function(location,resolve,reject){
 
 const router =new VueRouter({
   routes,
-  mode:"history",
+  // mode:"history",
   // 路由跳转后，自动定位到最顶部
   scrollBehavior(to,from,savedPosition){
     // console.log(to,from,savedPosition)
@@ -42,14 +42,19 @@ router.beforeEach((to,from,next)=>{
         store.dispatch("getUser").then(()=>{
           next()
         }).catch((err)=>{ // token失效,退出登录，并跳到登录页面
-          console.log(err)
+          Vue.prototype.$toast.show(err)
           store.dispatch("logOutUser")
           next('/login')
         })
       }
     }
   }else{
-    next()
+    if (!to.meta.canGo){
+      Vue.prototype.$toast.show("请您先登录")
+      next("login?redirect="+from.path)
+    }else{
+      next()
+    }
   }
 })
 export default router 

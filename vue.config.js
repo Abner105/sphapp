@@ -1,6 +1,8 @@
 module.exports = {
   // 关闭eslint
   lintOnSave:false,
+  // map文件不打包
+  productionSourceMap:false
   // 配置代理，解决跨域问题
   // devServer: {
   //   proxy: {

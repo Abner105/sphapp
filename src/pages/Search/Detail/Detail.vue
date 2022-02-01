@@ -35,7 +35,7 @@
           <div class="list-wrap">
             <div class="p-img"  @click="goDetail(good.id)">
               <a>
-                <img :src="good.defaultImg" />
+                <img v-lazy="good.defaultImg" />
               </a>
             </div>
             <div class="price">

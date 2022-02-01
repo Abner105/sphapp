@@ -76,7 +76,7 @@
           <em> 元</em>
         </div>
         <div class="sumbtn">
-          <a class="sum-btn" href="###" target="_blank">结算</a>
+          <router-link class="sum-btn"  to="/trade">结算</router-link>
         </div>
       </div>
     </div>
@@ -162,7 +162,7 @@ export default {
         .then(() => {
           this.$store.dispatch("getCartList");
         })
-        .catch((err) => console.log(err));
+        .catch((err) => this.$toast.show(err));
     },
     // 删除所有商品
     delGoods() {
@@ -171,7 +171,7 @@ export default {
         .then(() => {
           this.$store.dispatch("getCartList");
         })
-        .catch((err) => console.log(err));
+        .catch((err) => this.$toast.show(err));
     },
     // 改变单个商品的选中状态
     changeChecked(isChecked, skuId) {
@@ -181,7 +181,7 @@ export default {
         .then(() => {
           this.$store.dispatch("getCartList");
         })
-        .catch((err) => console.log(err));
+        .catch((err) =>this.$toast.show(err));
     },
     // 全选和全部选操作
     changeAll(checked) {
@@ -191,7 +191,7 @@ export default {
         .then(() => {
           this.$store.dispatch("getCartList");
         })
-        .catch((err) => console.log(err));
+        .catch((err) => this.$toast.show(err));
     },
   },
 };

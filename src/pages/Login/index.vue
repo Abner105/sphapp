@@ -81,8 +81,9 @@
       login(){
         this.pwd && this.phone &&
         this.$store.dispatch("loginUser",{phone:this.phone,password:this.pwd,isAuto:this.isAuto}).then(()=>{
-          this.$router.push('/home')
-        }).catch((err)=>console.log(err))
+          let topath =  this.$route.query.redirect || "/home"
+          this.$router.push(topath)
+        }).catch((err)=>this.$toast.show(err))
       }
     }
   }

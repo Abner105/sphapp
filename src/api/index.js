@@ -29,3 +29,16 @@ export const login = (data)=>requests({url:"/user/passport/login",method:"post",
 export const getUserInfo = ()=>requests({url:"/user/passport/auth/getUserInfo",method:"get"})
 // 退出登录
 export const logOut = ()=>requests({url:"/user/passport/logout",method:"get"})
+// 获取地址信息
+export const getAddress=()=>requests({url:"/user/userAddress/auth/findUserAddressList",method:"get"})
+// 获取商品清单
+export const getOrder=()=>requests({url:"/order/auth/trade",method:"get"})
+// 提交订单
+export const submit=(tradeNo,data)=>requests({url:`/order/auth/submitOrder?tradeNo=${tradeNo}`,method:"post",data})
+// 获取订单页支付信息
+export const getPay=(orderId)=>requests({url:`/payment/weixin/createNative/${orderId}`,method:"get"})
+// 获取订单支付状态
+export const getStatus=(orderId)=>requests({url:`/payment/weixin/queryPayStatus/${orderId}`,method:"get"})
+// 获取我的订单详情
+export const getCenter=(page,limit)=>requests({url:`/order/auth/${page}/${limit}`,method:"get"})
+
